@@ -1,54 +1,40 @@
-import java.io.*;
-public class oddeven
-{
-	public static void main(String args[]) throws IOException
-	{
-		FileOutputStream even = new FileOutputStream("./even.txt");
-		FileOutputStream odd = new FileOutputStream("./odd.txt");
-		BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(args[0])));
+//a53
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 
-		char lines[];
-		int lcnt=0;
+public class a53 {
+    public static void main(String[] args) {
+        if (args.length != 1) {
+            System.out.println("Usage: java FileSplitter <input file>");
+            System.exit(1);
+        }
 
-		String line;
-	try
-	{
-	while((line = br.readLine())!=null)
-	{
-		lcnt++;
-		lines = line.toCharArray();
+        String inputFile = args[0];
 
-		if(lcnt%2==0)
-		{
-			for(char ch : lines)
-			
-				even.write(ch);
-			even.write('\n');
-		}
-		else
-		{
-			for(char ch : lines)
-				odd.write(ch);
-			odd.write('\n');
-		
-		}
-	}
-	System.out.println("Operation Successful !! ");
-}
-	
-	catch(IOException ioe)
-	{
-		System.out.println(ioe);
-	}
-	try
-	{
-		odd.close();
-		even.close();
-	}
-	catch(IOException ioe)
-	{
-		System.out.println("ioe");
-	}
+        try (BufferedReader reader = new BufferedReader(new FileReader(inputFile))) {
+            String line;
+            int lineNumber = 1;
+
+            FileWriter evenWriter = new FileWriter("even.txt");
+            FileWriter oddWriter = new FileWriter("odd.txt");
+
+            while ((line = reader.readLine()) != null) {
+                if (lineNumber % 2 == 0) {
+                    evenWriter.write(line + "\n");
+                } else {
+                    oddWriter.write(line + "\n");
+                }
+                lineNumber++;
+            }
+
+            evenWriter.close();
+            oddWriter.close();
+
+            System.out.println("File split completed.");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
-}
-
+}//q3 file even odd
